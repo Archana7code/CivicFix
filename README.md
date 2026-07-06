@@ -2,9 +2,9 @@
 
 # 🚀 CivicFix
 
-### AI-Powered Infrastructure Issue Reporting Platform
+### AI-Powered Civic Infrastructure Issue Reporting Platform
 
-Detect, report, and track civic infrastructure issues using Machine Learning, automatic location detection, and an administrator dashboard.
+Detect, report, and manage civic infrastructure issues using Machine Learning, automatic location detection, and an administrator dashboard.
 
 </div>
 
@@ -12,25 +12,27 @@ Detect, report, and track civic infrastructure issues using Machine Learning, au
 
 # 📖 Overview
 
-CivicFix is an AI-powered infrastructure issue reporting platform developed during a hackathon to simplify reporting civic problems such as potholes, road cracks, water leakage, and damaged streetlights.
+CivicFix is an AI-powered web application that enables users to report civic infrastructure issues such as potholes, road cracks, broken streetlights, and water leaks.
 
-Users can upload an image of an issue, automatically detect their current location, and submit a report. The uploaded image is classified using a machine learning model, while complaint details are stored in MongoDB and images are securely uploaded to Cloudinary.
+Users can upload an image of an issue, automatically capture their current location, and submit a complaint. The uploaded image is classified using a **fine-tuned ResNet18 image classification model built with PyTorch**, while complaint information is stored in MongoDB and uploaded images are securely stored using Cloudinary.
 
-Administrators can review reports through a dedicated dashboard, update complaint statuses, and monitor recently submitted issues.
+Administrators can securely log in, review submitted complaints, update their status, and monitor recently reported issues through an intuitive dashboard.
+
+> **Note:** The project was initially developed during a hackathon by a team of three members and later improved with additional refinements.
 
 ---
 
 # ✨ Features
 
 - 📸 Upload infrastructure issue images
-- 🤖 AI-powered image classification
+- 🤖 AI-powered image classification using Transfer Learning (ResNet18)
 - 📍 Automatic GPS location detection
-- 🗺 Reverse geocoding for Area, District & Pincode
-- ☁ Cloudinary image storage
-- 🗄 MongoDB integration
-- 👨‍💼 Secure Admin Login
-- 📊 Admin Dashboard
-- 🔄 Real-time complaint status updates
+- 🗺 Reverse geocoding (Area, District & Pincode)
+- ☁ Secure image upload and storage using Cloudinary
+- 🗄 MongoDB database integration
+- 👨‍💼 Secure Admin Authentication (JWT)
+- 📊 Admin Dashboard for complaint management
+- 🔄 Complaint status updates
 - 📋 Recent Reports section
 - 📱 Responsive user interface
 
@@ -40,8 +42,64 @@ Administrators can review reports through a dedicated dashboard, update complain
 
 - 🛣 Potholes
 - 🚧 Road Cracks
-- 💡 Street Light Faults
+- 💡 Broken Streetlights
 - 💧 Water Leakage
+
+---
+
+# 🏗 System Architecture
+
+```text
+              User
+                │
+                ▼
+         Upload Image
+                │
+                ▼
+      Frontend (HTML/CSS/JS)
+                │
+                ▼
+      Node.js + Express Backend
+      │           │            │
+      │           │            │
+      ▼           ▼            ▼
+ Cloudinary    MongoDB     Python (PyTorch)
+                              │
+                              ▼
+                 Fine-tuned ResNet18 Model
+                              │
+                              ▼
+                     Predicted Issue Type
+```
+
+---
+
+# 🤖 Machine Learning Workflow
+
+```text
+Training Images
+       │
+       ▼
+Resize & Normalize Images
+       │
+       ▼
+Fine-tune Pre-trained ResNet18
+       │
+       ▼
+Save Trained Model (.pth)
+       │
+       ▼
+User Uploads Image
+       │
+       ▼
+Load Model
+       │
+       ▼
+Predict Issue Category
+       │
+       ▼
+Store Complaint & Display Result
+```
 
 ---
 
@@ -68,6 +126,7 @@ Administrators can review reports through a dedicated dashboard, update complain
 - PyTorch
 - TorchVision
 - Pillow
+- Transfer Learning (ResNet18)
 
 ## Cloud Storage
 
@@ -82,10 +141,21 @@ CivicFix/
 │
 ├── backend/
 │   ├── ai/
-│   │   └── requirements.txt
-│   └── ...
+│   │   ├── train.py
+│   │   ├── detectIssue.py
+│   │   ├── utils.py
+│   │   ├── requirements.txt
+│   │   └── model/
+│   │       └── model.pth
+│   │
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   ├── server.js
+│   └── package.json
 │
 ├── frontend/
+│
 ├── .gitignore
 └── README.md
 ```
@@ -106,7 +176,7 @@ Move into the project directory
 cd CivicFix
 ```
 
-Install backend dependencies
+Install Node.js dependencies
 
 ```bash
 npm install
@@ -117,6 +187,12 @@ Install Python dependencies
 ```bash
 cd backend/ai
 pip install -r requirements.txt
+```
+
+Start the backend server
+
+```bash
+npm start
 ```
 
 ---
@@ -137,12 +213,13 @@ JWT_SECRET=your_secure_jwt_secret
 
 # ⚠️ Important
 
-This repository does **not** include sensitive credentials.
+Sensitive credentials are **not included** in this repository.
 
-To run the complete project, configure your own:
+Configure your own:
 
 - MongoDB Database
 - Cloudinary Account
+- JWT Secret
 
 ---
 
@@ -164,7 +241,6 @@ To run the complete project, configure your own:
 
 <img width="1910" height="872" alt="image" src="https://github.com/user-attachments/assets/357123ee-f2af-4721-8f2f-5d19502cffb3" />
 
-
 ---
 
 # 👨‍💻 My Contributions
@@ -173,19 +249,21 @@ This project was originally developed during a hackathon by a team of three memb
 
 My contributions include:
 
-- Designed and trained the complete machine learning model for infrastructure issue classification.
-- Contributed to frontend development and user interface implementation.
-- Assisted in backend development and API integration.
+- Designed and implemented the machine learning pipeline for infrastructure issue classification.
+- Fine-tuned a pre-trained ResNet18 image classification model using PyTorch.
+- Integrated the ML model into the backend for automated issue prediction.
+- Contributed to frontend UI development and user experience improvements.
+- Assisted in backend API development and MongoDB integration.
 - Participated in testing and deployment during the hackathon.
 
 ---
 
 # 🚀 Future Improvements
 
-- Integrate government complaint portal APIs
-- GIS-based map visualization of reported issues
-- AI-powered severity prediction
-- Push notifications for complaint updates
+- Government complaint portal integration
+- GIS-based map visualization
+- AI-powered issue severity prediction
+- Email and push notifications
 - Mobile application
 - Advanced analytics dashboard
 - Multi-language support
@@ -194,9 +272,9 @@ My contributions include:
 
 # 📌 Project Status
 
-The project demonstrates the complete workflow of AI-assisted civic issue reporting, including image classification, automatic location detection, complaint submission, and administrator management.
+CivicFix successfully demonstrates the complete workflow of AI-assisted civic issue reporting, including image classification, automatic location detection, complaint submission, and administrator management.
 
-Backend services require environment configuration before deployment.
+Deployment requires configuring environment variables for MongoDB, Cloudinary, and JWT authentication.
 
 ---
 
@@ -206,10 +284,10 @@ Backend services require environment configuration before deployment.
 
 GitHub: https://github.com/Archana7code
 
-💼 LinkedIn: https://www.linkedin.com/in/archana-verma-287b3a328/
+LinkedIn: https://www.linkedin.com/in/archana-verma-287b3a328/
 
 ---
 
 ## ⭐ Support
 
-If you found this project interesting, consider giving it a ⭐ on GitHub.
+If you found this project helpful or interesting, consider giving it a ⭐ on GitHub.
